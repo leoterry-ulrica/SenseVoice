@@ -20,13 +20,17 @@ app.add_middleware(
     allow_headers=["*"], # 允许所有HTTP头部
 )
 # 从环境变量中获取模型目录
-model_dir = os.environ.get("MODEL_DIR", "/app/models/SenseVoiceSmall")
-print(f"model dir: {model_dir}")
+audio_model_dir = os.environ.get("AUDIO_MODEL_DIR", "/app/models/SenseVoiceSmall")
+print(f"model dir: {audio_model_dir}")
 # Load the model
-model_instance = AutoModel(
-    model=model_dir,
+audio_model = AutoModel(
+    model=audio_model_dir,
     trust_remote_code=True,
 )
+
+ct_punc_model_dir = os.environ.get("CT_PUNC_MODEL_DIR", "/app/models/ct-punc")
+# 标点模型
+ct_punc_model = AutoModel(model=ct_punc_model_dir)
 
 # 创建临时文件夹
 temp_dir = "./tmp/uploaded_files"
@@ -53,7 +57,7 @@ async def transcribe(
     #contents = await file.read()
 
     # Generate transcription
-    res = model_instance.generate(
+    res = audio_model.generate(
         input=temp_file_path,
         cache={},
         language=language,  # "zn", "en", "yue", "ja", "ko", "nospeech"
@@ -62,8 +66,11 @@ async def transcribe(
 
     # Postprocess the transcription
     text = rich_transcription_postprocess(res[0]["text"])
-    print(f"text: {text}")
-    return JSONResponse(content={"text": text})
+    print(f"rich text: {text}")
+    # 标点恢复
+    punc_res = ct_punc_model.generate(input=text)
+    print(f"punc resp: {punc_res}")
+    return JSONResponse(content={"text": punc_res[0]["text"]})
 
 if __name__ == "__main__":
     import uvicorn

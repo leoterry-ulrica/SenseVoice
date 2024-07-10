@@ -22,7 +22,7 @@ res = model.generate(
     language="auto", # "zn", "en", "yue", "ja", "ko", "nospeech"
     use_itn=False,
 )
-
+print(f'origin text: {res[0]["text"]}')
 text = rich_transcription_postprocess(res[0]["text"])
 
 print(text)
