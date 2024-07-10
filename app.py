@@ -5,11 +5,20 @@ from fastapi.responses import JSONResponse
 from funasr import AutoModel
 from utils.postprocess_utils import rich_transcription_postprocess
 import os
+from fastapi.middleware.cors import CORSMiddleware
 #from whisper import tokenizer
 
 #LANGUAGE_CODES = sorted(list(tokenizer.LANGUAGES.keys()))
 app = FastAPI()
 
+# 配置CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # 允许所有源
+    allow_credentials=True,
+    allow_methods=["*"], # 允许所有HTTP方法
+    allow_headers=["*"], # 允许所有HTTP头部
+)
 # 从环境变量中获取模型目录
 model_dir = os.environ.get("MODEL_DIR", "/app/models/SenseVoiceSmall")
 print(f"model dir: {model_dir}")
