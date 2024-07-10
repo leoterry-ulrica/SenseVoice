@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  funasr_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              ## 显式指定显卡
+              device_ids: ["2", "3"]
+              #count: "all"
+              capabilities: [gpu]
+    volumes:
+      - ./models/SenseVoiceSmall:/app/models/SenseVoiceSmall
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_DIR=/app/models/SenseVoiceSmall  # 设置默认模型目录
+    working_dir: /app
+
+networks:
+  default:
+    driver: bridge

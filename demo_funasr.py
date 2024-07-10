@@ -4,7 +4,7 @@
 #  MIT License  (https://opensource.org/licenses/MIT)
 
 from funasr import AutoModel
-from funasr.utils.postprocess_utils import rich_transcription_postprocess
+from utils.postprocess_utils import rich_transcription_postprocess
 
 model_dir = "iic/SenseVoiceSmall"
 input_file = (
