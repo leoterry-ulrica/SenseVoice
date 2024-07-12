@@ -15,14 +15,11 @@ services:
               capabilities: [gpu]
     volumes:
       - ./models/SenseVoiceSmall:/app/models/SenseVoiceSmall
-      - ./models/ct-punc:/app/models/ct-punc
     ports:
       - "8000:8000"
     environment:
       ## 语音识别模型
       - AUDIO_MODEL_DIR=/app/models/SenseVoiceSmall
-      ## 标点恢复模型
-      - CT_PUNC_MODEL_DIR=/app/models/ct-punc
     working_dir: /app
 
 networks:

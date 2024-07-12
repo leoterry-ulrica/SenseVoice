@@ -28,9 +28,9 @@ audio_model = AutoModel(
     trust_remote_code=True,
 )
 
-ct_punc_model_dir = os.environ.get("CT_PUNC_MODEL_DIR", "/app/models/ct-punc")
+#ct_punc_model_dir = os.environ.get("CT_PUNC_MODEL_DIR", "/app/models/ct-punc")
 # 标点模型
-ct_punc_model = AutoModel(model=ct_punc_model_dir)
+#ct_punc_model = AutoModel(model=ct_punc_model_dir)
 
 # 创建临时文件夹
 temp_dir = "./tmp/uploaded_files"
@@ -61,16 +61,18 @@ async def transcribe(
         input=temp_file_path,
         cache={},
         language=language,  # "zn", "en", "yue", "ja", "ko", "nospeech"
-        use_itn=False,
+        # 添加标点符号
+        use_itn=True,
     )
 
     # Postprocess the transcription
     text = rich_transcription_postprocess(res[0]["text"])
     print(f"rich text: {text}")
     # 标点恢复
-    punc_res = ct_punc_model.generate(input=text)
-    print(f"punc resp: {punc_res}")
-    return JSONResponse(content={"text": punc_res[0]["text"]})
+    #punc_res = ct_punc_model.generate(input=text)
+    #print(f"punc resp: {punc_res}")
+    #return JSONResponse(content={"text": punc_res[0]["text"]})
+    return JSONResponse(content={"text": text})
 
 if __name__ == "__main__":
     import uvicorn

@@ -20,7 +20,8 @@ res = model.generate(
     input=input_file,
     cache={},
     language="auto", # "zn", "en", "yue", "ja", "ko", "nospeech"
-    use_itn=False,
+    ## 标点符号恢复
+    use_itn=True,
 )
 print(f'origin text: {res[0]["text"]}')
 text = rich_transcription_postprocess(res[0]["text"])
