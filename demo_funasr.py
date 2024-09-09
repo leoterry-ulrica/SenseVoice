@@ -8,7 +8,8 @@ from utils.postprocess_utils import rich_transcription_postprocess
 
 model_dir = "iic/SenseVoiceSmall"
 input_file = (
-    "https://isv-data.oss-cn-hangzhou.aliyuncs.com/ics/MaaS/ASR/test_audio/asr_example_zh.wav"
+    "C:\\Users\\75423\\Desktop\\882d7492-e1b8-4a1b-bab7-07e3a0e00b3d.mp3"
+    #"https://isv-data.oss-cn-hangzhou.aliyuncs.com/ics/MaaS/ASR/test_audio/asr_example_zh.wav"
 )
 
 model = AutoModel(

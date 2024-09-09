@@ -7,6 +7,9 @@ WORKDIR /app
 # 复制当前目录下的所有内容到容器的/app目录下
 COPY . /app
 
+# 更新包列表并安装ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
+
 # 设置为清华同衡镜像源
 RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
 

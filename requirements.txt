@@ -7,3 +7,6 @@ openai-whisper
 fastapi
 uvicorn
 numpy<=1.26.4
+ffmpeg
+ffmpeg-python
+python-multipart
